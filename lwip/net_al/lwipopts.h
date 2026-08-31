@@ -155,6 +155,14 @@ uint16_t fhost_ip_chksum(const void *dataptr, int len);
 #define TCP_SND_BUF                   8192
 #define TCP_QUEUE_OOSEQ               1
 #define MEMP_NUM_TCP_SEG              ((4 * TCP_SND_BUF) / TCP_MSS)
+/* TCP_SND_QUEUELEN: opt.h's default derives from TCP_SND_BUF using ceil
+ * division ((4*BUF + MSS-1)/MSS), whereas MEMP_NUM_TCP_SEG above uses plain
+ * floor division.  For the 8 KB sender buffer those disagreed (tcp_seg pool
+ * 22 vs queue length 23), tripping init.c's sanity check
+ * "MEMP_NUM_TCP_SEG should be at least as big as TCP_SND_QUEUELEN".
+ * Pin the queue length to the tcp_seg pool so the two always match and the
+ * send queue can never demand more segments than have been allocated. */
+#define TCP_SND_QUEUELEN              MEMP_NUM_TCP_SEG
 #if !defined(CFG_RAM_OPT) && defined(CONFIG_RWNX_LWIP) && defined(CFG_HOSTIF)
 #define MEMP_NUM_PBUF                 ((4 * TCP_SND_BUF) / TCP_MSS)
 #else /* CONFIG_RWNX_LWIP && CFG_HOSTIF */
