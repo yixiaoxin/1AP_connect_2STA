@@ -2596,7 +2596,7 @@ static void uacm_network_task(void *arg)
                          * at 32768 Hz, so 32768 ticks ~= 1s of delay before
                          * the watchdog resets the chip.  This function does
                          * not return (it parks the CPU after arming WDT4). */
-                        pmic_chip_reboot(32768U);
+                        // pmic_chip_reboot(32768U);
                         /* chip is resetting; not reached */
                     }
                 } else {

@@ -138,7 +138,21 @@ uint16_t fhost_ip_chksum(const void *dataptr, int len);
 #endif
 #endif
 
-#define TCP_SND_BUF                   (2 * MAC_TXQ_DEPTH * TCP_MSS)
+/* TCP_SND_BUF: the old value (2*MAC_TXQ_DEPTH*TCP_MSS = 46720, 46 KB)
+ * dwarfed the 16 KB lwIP heap.  During Wi-Fi backpressure the unsent/unacked
+ * send queue could balloon toward 46 KB and exhaust the heap, surfacing as
+ * errno 12 (ENOMEM) and repeated "_apm probe sta fail" keepalive probes.
+ *
+ * The playback socket already clamps SO_SNDBUF to 4 KB (UACM_SOCKET_BUF_BYTES
+ * in demo_src.c).  Cap the kernel send buffer at 8 KB (conservative: holds
+ * about three 1920-byte audio frames plus retransmit headroom) so an example
+ * single connection's kernel send window can never fill the heap.
+ *
+ * MEMP_NUM_TCP_SEG / MEMP_NUM_PBUF / TCP_SNDLOWAT / MEM_MIN_TCP all derive
+ * from this macro and shrink automatically; MEM_SIZE stays 0x4000 (16 KB).
+ * This frees ~3.3 KB of BSS from the TCP_SEG + PBUF pools.
+ */
+#define TCP_SND_BUF                   8192
 #define TCP_QUEUE_OOSEQ               1
 #define MEMP_NUM_TCP_SEG              ((4 * TCP_SND_BUF) / TCP_MSS)
 #if !defined(CFG_RAM_OPT) && defined(CONFIG_RWNX_LWIP) && defined(CFG_HOSTIF)
