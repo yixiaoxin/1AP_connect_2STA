@@ -185,7 +185,7 @@ extern void rwnx_reord_v533_diag_snapshot(uint16_t *queued, uint16_t *peak,
 #define UACM_RECORD_RX_FD_SESSIONS_PER_LOOP  1U
 #define UACM_HELLO_TIMEOUT_MS                200U
 #define UACM_AGG_REAPPLY_GUARD_MS           10000U
-#define UACM_TX_BACKPRESSURE_TIMEOUT_MS      3000U
+#define UACM_TX_BACKPRESSURE_TIMEOUT_MS      1000U
 #define UACM_TX_ENOMEM_RETRY_LIMIT          32U
 #define UACM_TX_RECOVERY_COOLDOWN_MS        5000U
 #define UACM_LOG_RED                        "\033[31m"
@@ -1416,6 +1416,7 @@ static int uacm_service_tx(uacm_session_t *s, uint32_t now_ms)
     if (s->playback_fd < 0) {
         return -1;
     }
+    //
     if (s->tx_len == 0U) {
         if (s->ctrl_pending) {
             uint8_t mic_on = s->ctrl_mic_on;
@@ -2458,13 +2459,6 @@ static void uacm_network_task(void *arg)
                 int tx_ret = 0;
                 if ((sess->playback_fd >= 0) &&
                     ((tx_ret = uacm_service_tx(sess, now_ms)) != 0)) {
-                    uint32_t tx_errno = sess->tx_last_errno;
-                    if ((tx_errno == (uint32_t)ENOMEM) &&
-                        (sess->tx_backpressure_count >=
-                         UACM_TX_ENOMEM_RETRY_LIMIT)) {
-                        dbg("UACM WARN triangle%u playback ENOMEM retry limit exceeded\n",
-                            (unsigned)sess->client_id);
-                    }
                     if (!sess->playback_down_reported) {
                         dbg("UACM WARN triangle%u playback disconnected\n",
                             (unsigned)sess->client_id);
