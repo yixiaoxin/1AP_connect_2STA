@@ -1,0 +1,7 @@
+# AP-only SSD212 full-duplex I2S project
+src/pub/app_i2s_pcm_lower_wifi.c
+src/pub/modules/app_audio_deps.c
+src/pub/modules/app_audio_pcm.c
+src/pub/modules/app_audio_router.c
+src/pub/modules/app_audio_link.c
+src/pub/modules/app_i2s_ssd212_bridge.c

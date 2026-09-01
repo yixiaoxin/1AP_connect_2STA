@@ -1,0 +1,10 @@
+# inc
+  .
+  common
+  device
+  host
+  class/cdc
+  class/net
+  class/audio
+  portable
+  networking

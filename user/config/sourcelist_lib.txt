@@ -1,0 +1,1 @@
+# AP-only project is built from user source: use USER_CODE=src.

@@ -1,0 +1,68 @@
+#***************************************************************************************
+# @file sourcelist.txt
+#***************************************************************************************
+
+# boot vectors
+    arch/boot/$BUILDTOOL/boot_startup.S
+
+# architecture specific std function
+#if (env['STDLIB'] == 'on')
+    arch/std/retarget.c
+    arch/std/sdk_boot.c
+#endif #(env['STDLIB'] == 'on')
+
+# fault handlers
+    arch/boot/fault_handler.c
+    arch/boot/$BUILDTOOL/exception.S
+
+# architecture specific low level functions
+    arch/ll/ll.c
+
+# architecture specific main function
+    arch/main/arch_main.c
+
+# architecture specific function
+    arch/cmsis/cmsis_nvic.c
+
+# drivers
+    driver/stdio_uart/stdio_uart.c
+    driver/sysctrl/sysctrl_cfg.c
+    driver/uart/uart1_api.c
+    driver/uart/uart2_api.c
+    driver/ticker/ticker_api.c
+    driver/ticker/us_ticker.c
+    driver/ticker/us_ticker_api.c
+    driver/ticker/lp_ticker.c
+    driver/ticker/lp_ticker_api.c
+    driver/wdt/wdt_api.c
+    driver/gpio/gpio_api.c
+    driver/flash/flash_api.c
+    driver/sleep/sleep_user.c
+#if (env['PMIC'] == 'on')
+    driver/pmic/pmic_api.c
+    driver/pmic/pwrkey_api.c
+#endif #(env['PMIC'] == 'on')
+#if (env['BT_STACK'] != 'none')
+    driver/bt/bt_aic8800m80x2_driver.c
+#if (env['BT_TESTMODE'] == 'on')
+    driver/bt/patch/testmode/fw_8820_btonly_u03.c
+    driver/bt/patch/testmode/fw_8820_coant_u03.c
+#endif #(env['BT_TESTMODE'] == 'on')
+#endif #(env['BT_STACK'] != 'none')
+#if (env['BT_STACK'] != 'none' or env['BT_USER'] != 'off')
+    driver/bt/bt_common_config.c
+#if (env['BT_PATCH_MODE'] == 'mcu')
+    driver/bt/patch/mcu/fw_patch_u05.c
+    driver/bt/patch/mcu/fw_patch_table_u05.c
+    driver/bt/patch/mcu/fw_adid_u05.c
+    driver/bt/patch/mcu/fw_patch_u05_ext0.c
+#endif #(env['BT_PATCH_MODE'] == 'mcu')
+#endif #(env['BT_STACK'] != 'none' or env['BT_USER'] != 'off')
+
+#if (env['USE_LIB_DRV'] == 'off')
+   include sourcelist_lib.txt
+#endif #(env['USE_LIB_DRV'] == 'off')
+
+#***************************************************************************************
+# End of source list
+#***************************************************************************************
