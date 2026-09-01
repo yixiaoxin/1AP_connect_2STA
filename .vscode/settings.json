@@ -1,0 +1,27 @@
+{
+    "idf.pythonInstallPath": "/usr/bin/python",
+    "files.associations": {
+        "wifi_mic_tx.h": "c",
+        "audio_proc_api.h": "c",
+        "wifi_mic_rx.h": "c",
+        "fstream": "c",
+        "istream": "c",
+        "streambuf": "c",
+        "fhost_tx.h": "c",
+        "usbd_audio.h": "c",
+        "gpio_api.h": "c",
+        "app_media_mgr.h": "c",
+        "ip_addr.h": "c",
+        "wlan_user.h": "c",
+        "wlan_if.h": "c",
+        "asio.h": "c",
+        "tgt_cfg_bt.h": "c",
+        "stdint.h": "c",
+        "random": "c",
+        "limits": "c",
+        "algorithm": "c",
+        "stdbool.h": "c",
+        "wifi_wh_dongle.h": "c",
+        "wifi_voice.h": "c"
+    }
+}

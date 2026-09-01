@@ -1,0 +1,168 @@
+# wpa_supplicant files
+   wpa_supplicant/wpa_supplicant.c
+   wpa_supplicant/events.c
+   wpa_supplicant/scan.c
+   wpa_supplicant/notify.c
+   wpa_supplicant/bss.c
+   wpa_supplicant/wmm_ac.c
+   wpa_supplicant/blacklist.c
+   wpa_supplicant/wpas_glue.c
+   wpa_supplicant/eap_register.c
+   wpa_supplicant/config.c
+   wpa_supplicant/config_none.c
+   wpa_supplicant/ctrl_iface.c
+   wpa_supplicant/ctrl_iface_udp.c
+   wpa_supplicant/op_classes.c
+   wpa_supplicant/rrm.c
+
+#if (env['WPS'] != 'off')
+   wpa_supplicant/wps_supplicant.c
+   src/tls/bignum.c
+   src/tls/libtommath.c
+   src/wps/wps.c
+   src/wps/wps_attr_process.c
+   src/wps/wps_registrar.c
+   src/wps/wps_common.c
+   src/wps/wps_attr_build.c
+   src/wps/wps_dev_attr.c
+   src/wps/wps_attr_parse.c
+   src/wps/wps_enrollee.c
+   src/utils/uuid.c
+   src/eapol_supp/eapol_supp_sm.c
+   src/rsn_supp/pmksa_cache.c
+   src/eap_peer/eap_methods.c
+   src/eap_peer/eap.c
+   src/eap_peer/eap_wsc.c
+   #if (env['SOFTAP'] == 'off')
+   src/eap_common/eap_common.c
+   #endif #(env['SOFTAP'] == 'off')
+   src/eap_common/eap_wsc_common.c
+   #if (env['CRYPTO'] == 'none')
+   src/crypto/dh_groups.c
+   #endif #(env['CRYPTO'] != 'none')
+   src/crypto/dh_group5.c
+   src/utils/base64.c
+   src/crypto/aes-cbc.c
+   src/crypto/crypto_internal-modexp.c
+   src/ap/wps_hostapd.c
+#endif #(env['WPS'] != 'off')
+
+#if (env['P2P'] != 'off')
+   wpa_supplicant/p2p_supplicant.c
+   wpa_supplicant/p2p_supplicant_sd.c
+   src/p2p/p2p.c
+   src/p2p/p2p_utils.c
+   src/p2p/p2p_parse.c
+   src/p2p/p2p_build.c
+   src/p2p/p2p_go_neg.c
+   src/p2p/p2p_sd.c
+   src/p2p/p2p_pd.c
+   src/p2p/p2p_invitation.c
+   src/p2p/p2p_dev_disc.c
+   src/p2p/p2p_group.c
+   src/ap/p2p_hostapd.c
+   # CONFIG_GAS
+   wpa_supplicant/gas_query.c
+   src/common/gas.c
+   # CONFIG_OFFCHANNEL
+   wpa_supplicant/offchannel.c
+   # CONFIG_WIFI_DISPLAY
+   wpa_supplicant/wifi_display.c
+#endif #(env['P2P'] != 'off')
+
+   src/utils/eloop.c
+   src/utils/common.c
+   src/utils/wpabuf.c
+   src/utils/wpa_debug.c
+   src/utils/bitfield.c
+
+   src/crypto/md5.c
+   src/crypto/md5-internal.c
+   src/crypto/rc4.c
+   src/crypto/sha1.c
+   src/crypto/sha1-internal.c
+   src/crypto/sha1-prf.c
+   src/crypto/sha1-pbkdf2.c
+   src/crypto/sha256.c
+   src/crypto/sha256-internal.c
+   src/crypto/sha256-prf.c
+   src/crypto/aes-internal.c
+   src/crypto/aes-wrap.c
+   src/crypto/aes-internal-enc.c
+   src/crypto/aes-unwrap.c
+   src/crypto/aes-internal-dec.c
+   src/crypto/aes-omac1.c
+   src/crypto/random.c
+   src/crypto/tls_none.c
+
+#if (env['CRYPTO'] != 'none')
+   include sourcelist_crypto_mbedtls.txt
+#endif #(env['CRYPTO'] != 'none')
+   src/rsn_supp/wpa.c
+   src/rsn_supp/wpa_ie.c
+   src/rsn_supp/preauth.c
+
+   src/drivers/drivers.c
+   src/drivers/driver_common.c
+
+   src/common/wpa_common.c
+   src/common/ieee802_11_common.c
+   src/common/hw_features_common.c
+
+# Source file to support AP mode
+#if (env['SOFTAP'] != 'off')
+#if (env['HOSTAPD'] == 'off')
+   wpa_supplicant/ap.c
+#endif #(env['HOSTAPD'] == 'off')
+   src/ap/hostapd.c
+   src/ap/wpa_auth_glue.c
+   src/ap/utils.c
+   src/ap/authsrv.c
+   src/ap/ap_config.c
+   src/utils/ip_addr.c
+   src/ap/sta_info.c
+   src/ap/tkip_countermeasures.c
+   src/ap/ap_mlme.c
+   src/ap/ieee802_1x.c
+   src/eapol_auth/eapol_auth_sm.c
+   src/ap/ieee802_11_auth.c
+   src/ap/ieee802_11_shared.c
+   src/ap/drv_callbacks.c
+   src/ap/ap_drv_ops.c
+   src/ap/beacon.c
+   src/ap/bss_load.c
+   src/ap/eap_user_db.c
+   src/ap/neighbor_db.c
+   src/ap/rrm.c
+
+   src/ap/wmm.c
+   src/ap/ap_list.c
+   src/ap/ieee802_11.c
+   src/ap/hw_features.c
+   src/ap/dfs.c
+
+   src/ap/wpa_auth.c
+   src/ap/wpa_auth_ie.c
+   src/ap/pmksa_cache_auth.c
+
+   src/ap/ieee802_11_ht.c
+   src/ap/ieee802_11_vht.c
+   src/ap/ieee802_11_he.c
+   src/ap/wnm_ap.c
+   src/ap/acs.c
+
+   src/eap_server/eap_server.c
+   src/eap_server/eap_server_identity.c
+   src/eap_server/eap_server_methods.c
+   #if (env['WPS'] != 'off')
+   src/eap_server/eap_server_wsc.c
+   #endif #(env['WPS'] != 'off')
+   src/eap_common/eap_common.c
+
+   src/ap/ctrl_iface_ap.c
+
+   #src/ap/accounting.c
+   #src/ap/dhcp_snoop.c
+   #src/ap/peerkey_auth.c
+   #src/rsn_supp/peerkey.c
+#endif #(env['SOFTAP'] != 'off')

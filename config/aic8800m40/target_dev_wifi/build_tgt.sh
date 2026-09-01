@@ -1,0 +1,20 @@
+#!/bin/sh -x
+
+opt=$@
+
+sh build_dev_wifi_case.sh $opt
+if [ $? -eq 0 ]; then
+    echo '************************************succeed'
+else
+    echo '************************************failed'
+    exit 1
+fi
+
+sh build_dev_wifi_hci_case.sh $opt
+if [ $? -eq 0 ]; then
+    echo '************************************succeed'
+else
+    echo '************************************failed'
+    exit 1
+fi
+
