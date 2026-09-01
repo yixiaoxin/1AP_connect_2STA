@@ -3,6 +3,8 @@
 #include "rtos.h"
 #include "rtos_al.h"
 #include "rtos_def.h"
+#include "fhost_config.h"
+#include "flash_api_wifi.h"
 #include "modules/app_audio_pcm.h"
 #include "modules/app_audio_link.h"
 #include "modules/app_i2s_ssd212_bridge.h"
@@ -16,6 +18,16 @@ static void triangle_sta_user_task(void *param)
     int ret;
     (void)param;
     rtos_task_suspend(TRIANGLE_STA_ENTRY_DELAY_MS);
+
+    /* Fixed STA MAC address, persisted to flash.  Tail byte is derived from
+     * TRIANGLE_DEVICE_ID (1 -> 88:00:33:AA:BB:C1, 2 -> ...:C2) so the two
+     * STAs built from this source do not collide on the same network. */
+    {
+        uint8_t fixed_mac[6] = {0x88, 0x00, 0x33, 0xAA, 0xBB,
+                                0xC0U | (uint8_t)TRIANGLE_DEVICE_ID};
+        set_mac_address(fixed_mac);
+        flash_wifi_sta_macaddr_write(fixed_mac);
+    }
 
     dbg("TRI%u boot v7.0.12R18: capture/playback 48k stereo, record wire 16k stereo 10ms\r\n",
         (unsigned)TRIANGLE_DEVICE_ID);
