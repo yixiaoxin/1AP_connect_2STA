@@ -185,7 +185,7 @@ extern void rwnx_reord_v533_diag_snapshot(uint16_t *queued, uint16_t *peak,
 #define UACM_RECORD_RX_FD_SESSIONS_PER_LOOP  1U
 #define UACM_HELLO_TIMEOUT_MS                200U
 #define UACM_AGG_REAPPLY_GUARD_MS           10000U
-#define UACM_TX_BACKPRESSURE_TIMEOUT_MS      1000U
+#define UACM_TX_BACKPRESSURE_TIMEOUT_MS      500U
 #define UACM_TX_ENOMEM_RETRY_LIMIT          32U
 #define UACM_TX_RECOVERY_COOLDOWN_MS        5000U
 #define UACM_LOG_RED                        "\033[31m"
@@ -2579,29 +2579,7 @@ static void uacm_network_task(void *arg)
                         (unsigned)rtos_now(0), (unsigned)now_ms);
 
                 }
-                /* R19-AUTOREBOOT1: sustained connected-playback abnormality
-                 * means the AP is stuck, so do a whole-chip soft reboot once
-                 * (reboot does not return).  Reset the onset timestamp as
-                 * soon as playback looks healthy again. */
-                if (play_abnormal) {
-                    if (abnormal_begin_ms == 0U) {
-                        abnormal_begin_ms = now_ms;
-                    } else if ((now_ms - abnormal_begin_ms) >=
-                               UACM_AUTO_REBOOT_ABNORMAL_MS) {
-                        dbg(UACM_LOG_RED
-                            "erro:UACM REBOOT auto-recover: playback abnormal >= %ums; whole-chip pmic reboot now\n"
-                            UACM_LOG_RESET,
-                            (unsigned)UACM_AUTO_REBOOT_ABNORMAL_MS);
-                        /* PMIC whole-chip soft reboot.  WDT4 count is loaded
-                         * at 32768 Hz, so 32768 ticks ~= 1s of delay before
-                         * the watchdog resets the chip.  This function does
-                         * not return (it parks the CPU after arming WDT4). */
-                        // pmic_chip_reboot(32768U);
-                        /* chip is resetting; not reached */
-                    }
-                } else {
-                    abnormal_begin_ms = 0U;
-                }
+                
                 if (s_usb_mic_on) {
                     uacm_log_record48_check();
                 }
