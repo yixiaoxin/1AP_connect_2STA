@@ -3367,6 +3367,7 @@ static void uacm_user_task(void *arg)
         (unsigned)UACM_PLAY_EXPECTED_PPS);
     set_ap_enable_he_rate(0);
     set_ap_enable_ht_40(0);
+    set_ap_allow_sta_inactivity_s(3);
     wlan_ap_switch_channel(UACM_AP_CHANNEL);
     ret = wlan_start_ap(UACM_AP_BAND, (uint8_t *)UACM_WIFI_SSID,
                         (uint8_t *)UACM_WIFI_PASSWORD);
@@ -3378,6 +3379,7 @@ static void uacm_user_task(void *arg)
     user_sleep_allow(0);
     dbg("UACM READY AP ssid=%s channel_cfg=%u ip=192.168.88.1\n",
         UACM_WIFI_SSID, (unsigned)UACM_AP_CHANNEL);
+    dbg("UACM AP sta_inactivity=3s\n");
 
     ret = rtos_task_create(uacm_network_task, "U18_PLAY", APPLICATION_TASK,
                            UACM_NET_TASK_STACK, NULL,
